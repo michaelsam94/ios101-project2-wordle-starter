@@ -54,7 +54,11 @@ class ViewController: UIViewController,
     performSegue(withIdentifier: segueIdentifier, sender: nil)
   }
   
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    @IBAction func didTabResetButton(_ sender: UIBarButtonItem) {
+        boardController.resetBoardWithCurrentSettings()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     guard segue.identifier == segueIdentifier else { return }
     let settingsViewController = segue.destination as! SettingsViewController
     settingsViewController.delegate = self

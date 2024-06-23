@@ -51,6 +51,8 @@ class BoardController: NSObject,
   func resetBoardWithCurrentSettings() {
     // START YOUR CODE HERE
     // ...
+      numTimesGuessed = 0
+      collectionView.reloadData()
     // END YOUR CODE HERE
   }
   
@@ -61,8 +63,15 @@ class BoardController: NSObject,
   // Tip 4: You will need to cast the value to the correct type
   // Checkpoint: Correctly implementing this should allow you to change the number of letters in the goal word!
   private func applyNumLettersSettings(with settings: [String: Any]) {
+      
     // START YOUR CODE HERE
     // ...
+      print(settings)
+      guard let numOfLetters = settings[kNumLettersKey] as? Int else {
+          assertionFailure("expected num of letters is int not nil")
+          return
+      }
+      self.numItemsPerRow = numOfLetters
     // END YOUR CODE HERE
   }
   
@@ -75,6 +84,11 @@ class BoardController: NSObject,
   private func applyNumGuessesSettings(with settings: [String: Any]) {
     // START YOUR CODE HERE
     // ...
+      guard let numOfGuesses = settings[kNumGuessesKey] as? Int else {
+        assertionFailure("num of gusess should be int not nil")
+          return
+      }
+      self.numRows = numOfGuesses
     // END YOUR CODE HERE
   }
   
@@ -88,6 +102,13 @@ class BoardController: NSObject,
   private func applyThemeSettings(with settings: [String: Any]) {
     // START YOUR CODE HERE
     // ...
+      guard let theme = settings[kWordThemeKey] as? String else {
+          assertionFailure("expectiong theme as string and got nil")
+          return
+      }
+      if let wordTheme = WordTheme(rawValue: theme) {
+          self.goalWord = WordGenerator.generateGoalWord(with: wordTheme)
+      }
     // END YOUR CODE HERE
   }
   
@@ -98,6 +119,11 @@ class BoardController: NSObject,
   private func applyIsAlienWordleSettings(with settings: [String: Any]) {
     // START YOUR CODE HERE
     // ...
+      guard let isAlien = settings[kIsAlienWordleKey] as? Bool else {
+          assertionFailure("expected is ailen of type boolean but got nil")
+          return
+      }
+      self.isAlienWordle = isAlien
     // START YOUR CODE HERE
   }
 }
